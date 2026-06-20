@@ -63,8 +63,9 @@ model Product {
   units          Unit[]
   stockLevels    StockLevel[]
   stockMovements StockMovement[]
-  stockTransfers StockTransfer[]
-  invoiceLines   InvoiceLine[]
+  stockTransfers     StockTransfer[]
+  purchaseOrderLines PurchaseOrderLine[]
+  invoiceLines       InvoiceLine[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
@@ -92,6 +93,7 @@ model Depot {
   movements        StockMovement[]
   transfersFrom    StockTransfer[] @relation("TransferFrom")
   transfersTo      StockTransfer[] @relation("TransferTo")
+  purchaseOrders   PurchaseOrder[]
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
@@ -142,6 +144,48 @@ model StockTransfer {
   dispatchedBy    User      @relation("DispatchedBy", fields: [dispatchedById], references: [id])
   receivedById    String?
   receivedBy      User?     @relation("ReceivedBy", fields: [receivedById], references: [id])
+}
+
+// ==========================================
+// ACHATS ET FOURNISSEURS (B2B)
+// ==========================================
+model Supplier {
+  id             String          @id @default(uuid())
+  name           String
+  contactName    String?
+  email          String?
+  phone          String?
+  address        String?
+  taxId          String? // NIF/STAT
+  purchaseOrders PurchaseOrder[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model PurchaseOrder {
+  id               String              @id @default(uuid())
+  orderNumber      String              @unique
+  date             DateTime            @default(now())
+  expectedDate     DateTime?
+  status           String              @default("DRAFT") // DRAFT, SENT, RECEIVED, CANCELLED
+  totalAmount      Float               @default(0) // Ariary
+  supplierId       String
+  supplier         Supplier            @relation(fields: [supplierId], references: [id])
+  receivingDepotId String?           // Dépôt choisi lors de la réception
+  receivingDepot   Depot?              @relation(fields: [receivingDepotId], references: [id])
+  lines            PurchaseOrderLine[]
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+}
+
+model PurchaseOrderLine {
+  id              String        @id @default(uuid())
+  quantity        Float
+  unitPrice       Float         // Prix d'achat unitaire (Ariary)
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  productId       String
+  product         Product       @relation(fields: [productId], references: [id])
 }
 
 // ==========================================

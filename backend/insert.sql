@@ -1,0 +1,2 @@
+INSERT INTO "Role" (id, name, permissions, "createdAt", "updatedAt") VALUES ('role-admin-id', 'ADMIN', 'ALL', NOW(), NOW()) ON CONFLICT DO NOTHING; 
+INSERT INTO "User" (id, email, "passwordHash", "fullName", "isActive", "roleId", "createdAt", "updatedAt") VALUES ('user-admin-id', 'admin@erp.com', '$2b$10$D7CVV4xyVfKUkeHrIL90.OU56iOfiy7Zz9i/I75EDfir92MpQLjZ.', 'Administrateur ERP', true, 'role-admin-id', NOW(), NOW()) ON CONFLICT DO NOTHING;

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Users, DollarSign, Package } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function DashboardPage() {
   const [kpis, setKpis] = useState<any>(null);
@@ -29,49 +30,55 @@ export default function DashboardPage() {
       
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-            <DollarSign className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Chiffre d'Affaires</p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalRevenue)}</p>
-          </div>
-        </div>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Chiffre d'Affaires</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(kpis?.totalRevenue)}</div>
+            <p className="text-xs text-muted-foreground">Total encaissé</p>
+          </CardContent>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
-            <TrendingUp className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Marge Commerciale</p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.commercialMargin)}</p>
-          </div>
-        </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Marge Commerciale</CardTitle>
+            <TrendingUp className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">{formatCurrency(kpis?.commercialMargin)}</div>
+            <p className="text-xs text-muted-foreground">Revenus - Coûts</p>
+          </CardContent>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Créances (À encaisser)</p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalReceivables)}</p>
-          </div>
-        </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Créances (Clients)</CardTitle>
+            <Users className="h-4 w-4 text-red-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">{formatCurrency(kpis?.totalReceivables)}</div>
+            <p className="text-xs text-muted-foreground">Restant à payer</p>
+          </CardContent>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
-            <Package className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Coût d'Achat (COGS)</p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalCogs)}</p>
-          </div>
-        </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Coût d'Achat (COGS)</CardTitle>
+            <Package className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(kpis?.totalCogs)}</div>
+            <p className="text-xs text-muted-foreground">Valeur des sorties</p>
+          </CardContent>
+        </Card>
+
       </div>
 
       {/* Chart */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700">
+      <Card className="p-6">
         <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-6">Évolution des Ventes</h2>
         <div className="h-80 w-full">
           {chartData.length > 0 ? (
@@ -97,7 +104,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center h-full text-gray-400">Aucune donnée de vente pour le graphique</div>
           )}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

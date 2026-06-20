@@ -1,61 +1,101 @@
-import { ArrowUpRight, Package, Users, DollarSign, Activity } from "lucide-react";
+'use client';
+import { useState, useEffect } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { TrendingUp, Users, DollarSign, Package } from 'lucide-react';
 
 export default function DashboardPage() {
-  const stats = [
-    { title: "Chiffre d'affaires", value: "45,231 €", trend: "+20.1%", icon: DollarSign, color: "bg-green-500" },
-    { title: "Nouveaux Clients", value: "+2350", trend: "+10.5%", icon: Users, color: "bg-blue-500" },
-    { title: "Commandes", value: "+12,234", trend: "+19%", icon: Package, color: "bg-purple-500" },
-    { title: "Activité", value: "573", trend: "+201 depuis 1h", icon: Activity, color: "bg-orange-500" },
-  ];
+  const [kpis, setKpis] = useState<any>(null);
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const [kpiRes, chartRes] = await Promise.all([
+        fetch('/api/analytics/kpis', { headers }),
+        fetch('/api/analytics/sales-chart', { headers })
+      ]);
+      
+      if (kpiRes.ok) setKpis(await kpiRes.json());
+      if (chartRes.ok) setChartData(await chartRes.json());
+    };
+    fetchAnalytics();
+  }, []);
+
+  const formatCurrency = (val: number) => new Intl.NumberFormat('fr-MG', { style: 'currency', currency: 'MGA' }).format(val || 0);
 
   return (
     <div className="space-y-6">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Tableau de bord financier</h1>
+      
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, i) => {
-          const Icon = stat.icon;
-          return (
-            <div key={i} className="bg-white dark:bg-[#1e293b] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">{stat.title}</h3>
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color} bg-opacity-10 dark:bg-opacity-20`}>
-                  <Icon className={`w-5 h-5 ${stat.color.replace('bg-', 'text-')}`} />
-                </div>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{stat.value}</h2>
-              </div>
-              <p className="text-sm font-medium text-emerald-500 mt-2 flex items-center gap-1">
-                <ArrowUpRight className="w-4 h-4" />
-                {stat.trend}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-        <div className="lg:col-span-2 bg-white dark:bg-[#1e293b] rounded-2xl border border-gray-100 dark:border-white/5 p-6 shadow-sm min-h-[400px] flex flex-col">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Évolution des Ventes</h3>
-          <div className="flex-1 w-full flex items-center justify-center text-gray-400 bg-gray-50 dark:bg-[#0f172a] rounded-xl border border-dashed border-gray-200 dark:border-white/10">
-            [Graphique dynamique Chart.js à venir]
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <DollarSign className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Chiffre d'Affaires</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalRevenue)}</p>
           </div>
         </div>
-        <div className="bg-white dark:bg-[#1e293b] rounded-2xl border border-gray-100 dark:border-white/5 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Activité Récente</h3>
-          <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-4 py-2 border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg px-2 transition-colors cursor-pointer -mx-2">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                  {String.fromCharCode(64 + i)}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">Commande #{1000 + i}</p>
-                  <p className="text-xs text-gray-500">Il y a {i * 10} min</p>
-                </div>
-                <span className="text-sm font-bold text-emerald-500">+{i * 150} €</span>
-              </div>
-            ))}
+
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+            <TrendingUp className="w-6 h-6" />
           </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Marge Commerciale</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.commercialMargin)}</p>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+            <Users className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Créances (À encaisser)</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalReceivables)}</p>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+            <Package className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Coût d'Achat (COGS)</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(kpis?.totalCogs)}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-6">Évolution des Ventes</h2>
+        <div className="h-80 w-full">
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748b' }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b' }} width={80} tickFormatter={(value) => new Intl.NumberFormat('fr-MG', { notation: "compact", compactDisplay: "short" }).format(value)} />
+                <Tooltip 
+                  formatter={(value: any) => formatCurrency(value)}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                />
+                <Area type="monotone" dataKey="amount" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-400">Aucune donnée de vente pour le graphique</div>
+          )}
         </div>
       </div>
     </div>

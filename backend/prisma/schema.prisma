@@ -94,6 +94,7 @@ model Depot {
   transfersFrom    StockTransfer[] @relation("TransferFrom")
   transfersTo      StockTransfer[] @relation("TransferTo")
   purchaseOrders   PurchaseOrder[]
+  invoices         Invoice[]
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
@@ -193,8 +194,11 @@ model PurchaseOrderLine {
 // ==========================================
 model Customer {
   id          String    @id @default(uuid())
+  type        String    @default("B2C") // B2B, B2C
   companyName String?
   fullName    String?
+  phone       String?
+  address     String?
   taxId       String? // Matricule fiscal
   creditLimit Float     @default(0)
   currentDebt Float     @default(0)
@@ -208,11 +212,15 @@ model Invoice {
   invoiceNumber String        @unique
   date          DateTime      @default(now())
   dueDate       DateTime?
-  status        String // DRAFT, VALIDATED, PAID
-  totalAmount   Float
-  taxAmount     Float
-  customerId    String? // Optionnel pour les tickets de caisse POS
-  customer      Customer?     @relation(fields: [customerId], references: [id])
+  type          String        @default("B2B") // B2B, POS
+  status        String        // DRAFT, PARTIAL, PAID, CANCELLED
+  totalAmount   Float         @default(0)
+  taxAmount     Float         @default(0)
+  amountPaid    Float         @default(0)
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  depotId       String
+  depot         Depot         @relation(fields: [depotId], references: [id])
   lines         InvoiceLine[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

@@ -7,10 +7,10 @@ export declare class StockMovementsService {
         id: string;
         createdAt: Date;
         productId: string;
+        depotId: string;
         type: string;
         reference: string | null;
         quantityChanged: number;
-        depotId: string;
         date: Date;
         userId: string;
     }>;
@@ -43,17 +43,17 @@ export declare class StockMovementsService {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            type: string;
             location: string | null;
+            type: string;
         };
     } & {
         id: string;
         createdAt: Date;
         productId: string;
+        depotId: string;
         type: string;
         reference: string | null;
         quantityChanged: number;
-        depotId: string;
         date: Date;
         userId: string;
     })[]>;

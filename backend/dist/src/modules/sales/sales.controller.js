@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SalesController.prototype, "findAll", null);
 exports.SalesController = SalesController = __decorate([
-    (0, common_1.Controller)('api/sales'),
+    (0, common_1.Controller)('sales'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [sales_service_1.SalesService])
 ], SalesController);

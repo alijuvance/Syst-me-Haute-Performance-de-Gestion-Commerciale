@@ -5,6 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  app.setGlobalPrefix('api');
+  
   // Activation de la validation globale des DTOs (très important pour la sécurité)
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // Retire les propriétés non définies dans le DTO

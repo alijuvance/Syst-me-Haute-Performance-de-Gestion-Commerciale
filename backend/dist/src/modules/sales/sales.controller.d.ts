@@ -29,8 +29,8 @@ export declare class SalesController {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        type: string;
         depotId: string;
+        type: string;
         date: Date;
         status: string;
         totalAmount: number;
@@ -46,8 +46,8 @@ export declare class SalesController {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            type: string;
             location: string | null;
+            type: string;
         };
         customer: {
             fullName: string | null;
@@ -66,8 +66,8 @@ export declare class SalesController {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        type: string;
         depotId: string;
+        type: string;
         date: Date;
         status: string;
         totalAmount: number;

@@ -57,7 +57,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PurchaseOrdersController.prototype, "receive", null);
 exports.PurchaseOrdersController = PurchaseOrdersController = __decorate([
-    (0, common_1.Controller)('api/purchase-orders'),
+    (0, common_1.Controller)('purchase-orders'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [purchase_orders_service_1.PurchaseOrdersService])
 ], PurchaseOrdersController);

@@ -66,8 +66,8 @@ export declare class PurchaseOrdersService {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            type: string;
             location: string | null;
+            type: string;
         } | null;
     } & {
         id: string;

@@ -10,11 +10,13 @@ exports.StockLevelsModule = void 0;
 const common_1 = require("@nestjs/common");
 const stock_levels_controller_1 = require("./stock-levels.controller");
 const stock_levels_service_1 = require("./stock-levels.service");
+const prisma_module_1 = require("../../core/prisma/prisma.module");
 let StockLevelsModule = class StockLevelsModule {
 };
 exports.StockLevelsModule = StockLevelsModule;
 exports.StockLevelsModule = StockLevelsModule = __decorate([
     (0, common_1.Module)({
+        imports: [prisma_module_1.PrismaModule],
         controllers: [stock_levels_controller_1.StockLevelsController],
         providers: [stock_levels_service_1.StockLevelsService]
     })

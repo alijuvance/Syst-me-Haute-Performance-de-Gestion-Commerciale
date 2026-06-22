@@ -30,8 +30,8 @@ export declare class AnalyticsController {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        type: string;
         depotId: string;
+        type: string;
         date: Date;
         status: string;
         totalAmount: number;

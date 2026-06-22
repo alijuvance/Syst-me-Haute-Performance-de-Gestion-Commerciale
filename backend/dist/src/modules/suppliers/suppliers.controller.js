@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SuppliersController.prototype, "findAll", null);
 exports.SuppliersController = SuppliersController = __decorate([
-    (0, common_1.Controller)('api/suppliers'),
+    (0, common_1.Controller)('suppliers'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [suppliers_service_1.SuppliersService])
 ], SuppliersController);

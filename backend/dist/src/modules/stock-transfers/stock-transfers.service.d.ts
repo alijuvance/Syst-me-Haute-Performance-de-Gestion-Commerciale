@@ -8,8 +8,8 @@ export declare class StockTransfersService {
     dispatchTransfer(dto: DispatchTransferDto, userId: string): Promise<{
         id: string;
         productId: string;
-        reference: string;
         quantity: number;
+        reference: string;
         fromDepotId: string;
         toDepotId: string;
         status: string;
@@ -21,8 +21,8 @@ export declare class StockTransfersService {
     receiveTransfer(transferId: string, userId: string): Promise<{
         id: string;
         productId: string;
-        reference: string;
         quantity: number;
+        reference: string;
         fromDepotId: string;
         toDepotId: string;
         status: string;
@@ -50,16 +50,16 @@ export declare class StockTransfersService {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            type: string;
             location: string | null;
+            type: string;
         };
         toDepot: {
             name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            type: string;
             location: string | null;
+            type: string;
         };
         dispatchedBy: {
             fullName: string;
@@ -70,8 +70,8 @@ export declare class StockTransfersService {
     } & {
         id: string;
         productId: string;
-        reference: string;
         quantity: number;
+        reference: string;
         fromDepotId: string;
         toDepotId: string;
         status: string;

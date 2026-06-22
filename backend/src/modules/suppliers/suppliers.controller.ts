@@ -3,7 +3,7 @@ import { SuppliersService } from './suppliers.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('api/suppliers')
+@Controller('suppliers')
 @UseGuards(JwtAuthGuard)
 export class SuppliersController {
   constructor(private readonly suppliersService: SuppliersService) {}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
+import api from "@/api/axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -17,11 +18,21 @@ export default function LoginPage() {
     setError("");
 
     try {
-      setTimeout(() => {
+      const response = await api.post("/api/auth/login", { email, password });
+      const { access_token } = response.data;
+      if (access_token) {
+        localStorage.setItem("token", access_token);
         router.push("/dashboard");
-      }, 1000);
+      } else {
+        setError("Token non reçu.");
+        setLoading(false);
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || "Erreur de connexion");
+      if (err.response?.status === 401) {
+        setError("Identifiants incorrects.");
+      } else {
+        setError(err.response?.data?.message || "Erreur de connexion.");
+      }
       setLoading(false);
     }
   };

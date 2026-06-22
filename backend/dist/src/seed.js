@@ -57,7 +57,18 @@ async function bootstrap() {
             roleId: adminRole.id,
         },
     });
+    const depot = await prisma.depot.upsert({
+        where: { id: 'depot-central-id' },
+        update: {},
+        create: { id: 'depot-central-id', name: 'Dépôt Central', location: 'Antananarivo', type: 'CENTRAL' },
+    });
+    const category = await prisma.category.upsert({
+        where: { name: 'Général' },
+        update: {},
+        create: { name: 'Général' },
+    });
     console.log('✅ Seed successful: admin@erp.com / admin123');
+    console.log('   Depot:', depot.name, '| Category:', category.name);
     await app.close();
 }
 bootstrap();

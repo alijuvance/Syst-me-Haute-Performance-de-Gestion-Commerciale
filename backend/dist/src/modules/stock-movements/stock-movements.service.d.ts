@@ -7,8 +7,8 @@ export declare class StockMovementsService {
         id: string;
         createdAt: Date;
         productId: string;
-        depotId: string;
         type: string;
+        depotId: string;
         reference: string | null;
         quantityChanged: number;
         date: Date;
@@ -50,8 +50,8 @@ export declare class StockMovementsService {
         id: string;
         createdAt: Date;
         productId: string;
-        depotId: string;
         type: string;
+        depotId: string;
         reference: string | null;
         quantityChanged: number;
         date: Date;

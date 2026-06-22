@@ -33,8 +33,8 @@ export declare class SalesService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        depotId: string;
         type: string;
+        depotId: string;
         date: Date;
         status: string;
         totalAmount: number;
@@ -70,8 +70,8 @@ export declare class SalesService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        depotId: string;
         type: string;
+        depotId: string;
         date: Date;
         status: string;
         totalAmount: number;

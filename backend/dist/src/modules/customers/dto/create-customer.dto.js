@@ -17,37 +17,43 @@ class CreateCustomerDto {
     fullName;
     phone;
     address;
+    email;
     taxId;
 }
 exports.CreateCustomerDto = CreateCustomerDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsIn)(['B2B', 'B2C']),
+    (0, class_validator_1.IsString)({ message: 'Le type doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le type est requis' }),
+    (0, class_validator_1.IsIn)(['B2B', 'B2C'], { message: 'Le type doit être B2B ou B2C' }),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "type", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'La raison sociale doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "companyName", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le nom complet doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "fullName", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le téléphone doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "phone", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'L\'adresse doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "address", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'L\'email doit être une chaîne' }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateCustomerDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: 'Le NIF/STAT doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCustomerDto.prototype, "taxId", void 0);

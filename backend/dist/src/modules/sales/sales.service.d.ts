@@ -9,6 +9,7 @@ export declare class SalesService {
     constructor(prisma: PrismaService, stockMovementsService: StockMovementsService, customersService: CustomersService);
     createSale(dto: CreateSaleDto, userId: string): Promise<{
         customer: {
+            email: string | null;
             fullName: string | null;
             id: string;
             createdAt: Date;
@@ -54,6 +55,7 @@ export declare class SalesService {
             type: string;
         };
         customer: {
+            email: string | null;
             fullName: string | null;
             id: string;
             createdAt: Date;

@@ -37,7 +37,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     <aside className={`${sidebarOpen ? "w-64" : "w-16"} transition-all duration-300 bg-white border-r border-slate-200 flex flex-col fixed h-full z-20`}>
       <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 bg-slate-50">
         <div className={`font-bold text-lg text-slate-900 overflow-hidden transition-all whitespace-nowrap ${sidebarOpen ? "w-auto opacity-100" : "w-0 opacity-0"}`}>
-          ERP System
+          FANJAVA
         </div>
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 text-slate-500 hover:text-slate-900 transition-colors">
           <Menu className="w-5 h-5" />

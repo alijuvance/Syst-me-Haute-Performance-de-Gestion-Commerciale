@@ -21,32 +21,32 @@ class CreateSupplierDto {
 }
 exports.CreateSupplierDto = CreateSupplierDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'Le nom doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le nom du fournisseur est requis' }),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le nom du contact doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "contactName", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.IsEmail)({}, { message: 'L\'email doit être une adresse valide' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le téléphone doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "phone", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'L\'adresse doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "address", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le NIF/STAT doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "taxId", void 0);

@@ -4,6 +4,7 @@ export declare class CustomersService {
     private prisma;
     constructor(prisma: PrismaService);
     create(dto: CreateCustomerDto): Promise<{
+        email: string | null;
         fullName: string | null;
         id: string;
         createdAt: Date;
@@ -17,6 +18,7 @@ export declare class CustomersService {
         currentDebt: number;
     }>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+        email: string | null;
         fullName: string | null;
         id: string;
         createdAt: Date;
@@ -30,6 +32,7 @@ export declare class CustomersService {
         currentDebt: number;
     }[]>;
     getOrCreateGenericPosCustomer(): Promise<{
+        email: string | null;
         fullName: string | null;
         id: string;
         createdAt: Date;

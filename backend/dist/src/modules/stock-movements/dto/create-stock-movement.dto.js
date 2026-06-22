@@ -27,27 +27,27 @@ class CreateStockMovementDto {
 }
 exports.CreateStockMovementDto = CreateStockMovementDto;
 __decorate([
-    (0, class_validator_1.IsEnum)(MovementType),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(MovementType, { message: 'Le type de mouvement est invalide' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le type de mouvement est requis' }),
     __metadata("design:type", String)
 ], CreateStockMovementDto.prototype, "type", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'La référence doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateStockMovementDto.prototype, "reference", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsNumber)({}, { message: 'La quantité modifiée doit être un nombre' }),
     __metadata("design:type", Number)
 ], CreateStockMovementDto.prototype, "quantityChanged", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'L\'ID du produit doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le produit est requis' }),
     __metadata("design:type", String)
 ], CreateStockMovementDto.prototype, "productId", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'L\'ID du dépôt doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le dépôt est requis' }),
     __metadata("design:type", String)
 ], CreateStockMovementDto.prototype, "depotId", void 0);
 //# sourceMappingURL=create-stock-movement.dto.js.map

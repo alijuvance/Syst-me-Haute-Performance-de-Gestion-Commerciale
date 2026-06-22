@@ -14,16 +14,16 @@ export const useProductForm = (
     resolver: zodResolver(productSchema),
     defaultValues: initialData ? {
       name: initialData.name,
-      reference: initialData.reference,
+      sku: initialData.sku,
       categoryId: initialData.categoryId,
       defaultPrice: initialData.defaultPrice,
-      minimumStockAlert: initialData.minimumStockAlert,
+      costPrice: initialData.costPrice,
     } : {
       name: '',
-      reference: '',
+      sku: '',
       categoryId: '',
       defaultPrice: 0,
-      minimumStockAlert: 0,
+      costPrice: 0,
     },
     mode: 'onChange',
   });

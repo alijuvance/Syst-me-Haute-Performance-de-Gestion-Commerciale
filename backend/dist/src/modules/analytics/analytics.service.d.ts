@@ -14,6 +14,7 @@ export declare class AnalyticsService {
     }[]>;
     getDebts(): Promise<({
         customer: {
+            email: string | null;
             fullName: string | null;
             id: string;
             createdAt: Date;

@@ -31,16 +31,17 @@ export function ProductsTable() {
   };
 
   const columns: ColumnDef<Product>[] = [
-    { key: 'ref', header: 'Référence', cell: (p) => <span className="font-medium text-slate-900">{p.reference}</span> },
+    { key: 'ref', header: 'Référence', cell: (p) => <span className="font-medium text-slate-900">{p.sku}</span> },
     { key: 'name', header: 'Nom du produit', cell: (p) => p.name },
-    { key: 'price', header: 'Prix par défaut', align: 'right', cell: (p) => formatCurrency(p.defaultPrice) },
-    { key: 'alert', header: 'Alerte stock', align: 'right', cell: (p) => p.minimumStockAlert },
+    { key: 'category', header: 'Catégorie', cell: (p) => <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800">{p.categoryId || 'N/A'}</span> },
+    { key: 'price', header: 'Prix de vente', align: 'right', cell: (p) => `${p.defaultPrice.toLocaleString()} Ar` },
+    { key: 'cost', header: 'Coût d\'achat', align: 'right', cell: (p) => `${p.costPrice.toLocaleString()} Ar` },
     { 
       key: 'actions', 
       header: '', 
       align: 'right',
       cell: (p) => (
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button onClick={() => handleOpenEdit(p)} className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
             <Edit2 className="w-4 h-4" />
           </button>

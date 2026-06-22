@@ -22,38 +22,38 @@ class CreateProductDto {
 }
 exports.CreateProductDto = CreateProductDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'Le SKU (Référence) doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le SKU (Référence) est requis' }),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "sku", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'Le code-barre doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "barcode", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'Le nom doit être une chaîne' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Le nom du produit est requis' }),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'La description doit être une chaîne' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "description", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.IsNumber)({}, { message: 'Le prix unitaire doit être un nombre' }),
+    (0, class_validator_1.Min)(0, { message: 'Le prix unitaire ne peut pas être inférieur à 0' }),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "defaultPrice", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.IsNumber)({}, { message: 'Le coût d\'achat doit être un nombre' }),
+    (0, class_validator_1.Min)(0, { message: 'Le coût d\'achat ne peut pas être inférieur à 0' }),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "costPrice", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)({ message: 'La catégorie est requise' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Veuillez sélectionner une catégorie' }),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "categoryId", void 0);
 //# sourceMappingURL=create-product.dto.js.map

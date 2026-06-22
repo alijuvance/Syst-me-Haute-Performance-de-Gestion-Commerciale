@@ -8,22 +8,22 @@ export enum MovementType {
 }
 
 export class CreateStockMovementDto {
-  @IsEnum(MovementType)
-  @IsNotEmpty()
+  @IsEnum(MovementType, { message: 'Le type de mouvement est invalide' })
+  @IsNotEmpty({ message: 'Le type de mouvement est requis' })
   type: MovementType;
 
-  @IsString()
+  @IsString({ message: 'La référence doit être une chaîne' })
   @IsOptional()
   reference?: string;
 
-  @IsNumber()
+  @IsNumber({}, { message: 'La quantité modifiée doit être un nombre' })
   quantityChanged: number;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'L\'ID du produit doit être une chaîne' })
+  @IsNotEmpty({ message: 'Le produit est requis' })
   productId: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'L\'ID du dépôt doit être une chaîne' })
+  @IsNotEmpty({ message: 'Le dépôt est requis' })
   depotId: string;
 }

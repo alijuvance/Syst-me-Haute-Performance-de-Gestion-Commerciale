@@ -5,6 +5,7 @@ export declare class SalesController {
     constructor(salesService: SalesService);
     create(createSaleDto: CreateSaleDto, req: any): Promise<{
         customer: {
+            email: string | null;
             fullName: string | null;
             id: string;
             createdAt: Date;
@@ -50,6 +51,7 @@ export declare class SalesController {
             type: string;
         };
         customer: {
+            email: string | null;
             fullName: string | null;
             id: string;
             createdAt: Date;

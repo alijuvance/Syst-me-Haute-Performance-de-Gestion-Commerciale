@@ -29,12 +29,12 @@ export function ProductFormModal({ isOpen, onClose, onSuccess, initialData }: Pr
         )}
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Référence <span className="text-red-500">*</span></label>
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Référence / SKU <span className="text-red-500">*</span></label>
           <input
-            {...register('reference')}
-            className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.reference ? 'border-red-400' : 'border-slate-300'}`}
+            {...register('sku')}
+            className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.sku ? 'border-red-400' : 'border-slate-300'}`}
           />
-          {errors.reference && <p className="text-xs text-red-500 mt-1">{errors.reference.message}</p>}
+          {errors.sku && <p className="text-xs text-red-500 mt-1">{errors.sku.message}</p>}
         </div>
 
         <div>
@@ -47,11 +47,12 @@ export function ProductFormModal({ isOpen, onClose, onSuccess, initialData }: Pr
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Catégorie ID</label>
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Catégorie ID <span className="text-red-500">*</span></label>
           <input
             {...register('categoryId')}
-            className="w-full border border-slate-300 p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400"
+            className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.categoryId ? 'border-red-400' : 'border-slate-300'}`}
           />
+          {errors.categoryId && <p className="text-xs text-red-500 mt-1">{errors.categoryId.message}</p>}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -67,14 +68,14 @@ export function ProductFormModal({ isOpen, onClose, onSuccess, initialData }: Pr
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Alerte Stock</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Coût d'achat <span className="text-red-500">*</span></label>
             <input
               type="number"
               min={0}
-              {...register('minimumStockAlert', { valueAsNumber: true })}
-              className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.minimumStockAlert ? 'border-red-400' : 'border-slate-300'}`}
+              {...register('costPrice', { valueAsNumber: true })}
+              className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.costPrice ? 'border-red-400' : 'border-slate-300'}`}
             />
-            {errors.minimumStockAlert && <p className="text-xs text-red-500 mt-1">{errors.minimumStockAlert.message}</p>}
+            {errors.costPrice && <p className="text-xs text-red-500 mt-1">{errors.costPrice.message}</p>}
           </div>
         </div>
 

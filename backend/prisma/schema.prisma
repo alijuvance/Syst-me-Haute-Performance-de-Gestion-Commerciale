@@ -199,6 +199,7 @@ model Customer {
   companyName String?
   fullName    String?
   phone       String?
+  email       String?
   address     String?
   taxId       String? // Matricule fiscal
   creditLimit Float     @default(0)

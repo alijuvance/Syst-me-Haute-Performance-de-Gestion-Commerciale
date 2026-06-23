@@ -27,6 +27,9 @@ let ProductsService = class ProductsService {
             if (error.code === 'P2002') {
                 throw new common_1.ConflictException('Un produit avec ce SKU ou Code-barre existe déjà');
             }
+            if (error.code === 'P2003') {
+                throw new common_1.ConflictException('La catégorie sélectionnée n\'existe pas');
+            }
             throw error;
         }
     }

@@ -13,6 +13,7 @@ export const useSaleForm = () => {
   const [customers, setCustomers] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [depots, setDepots] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [isLoadingRef, setIsLoadingRef] = useState(true);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export const useSaleForm = () => {
         setCustomers(data.customers);
         setProducts(data.products);
         setDepots(data.depots);
+        setCategories(data.categories);
       } catch (err) {
         console.error('Erreur lors du chargement des données de référence:', err);
       } finally {
@@ -101,6 +103,7 @@ export const useSaleForm = () => {
     customers,
     products,
     depots,
+    categories,
     isLoadingRef,
     // Actions
     addLine,

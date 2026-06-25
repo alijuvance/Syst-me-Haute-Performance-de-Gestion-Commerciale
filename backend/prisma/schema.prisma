@@ -60,7 +60,7 @@ model Product {
   costPrice      Float // PAMP (Prix moyen pondéré)
   isActive       Boolean         @default(true)
   categoryId     String
-  category       Category        @relation(fields: [categoryId], references: [id])
+  category       Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   units          Unit[]
   stockLevels    StockLevel[]
   stockMovements StockMovement[]
@@ -77,7 +77,7 @@ model Unit {
   conversionRate Float // Ratio par rapport à l'unité de base
   isBaseUnit     Boolean  @default(false)
   productId      String
-  product        Product  @relation(fields: [productId], references: [id])
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
@@ -105,9 +105,9 @@ model StockLevel {
   quantity         Float    @default(0)
   minAlertQuantity Float    @default(0)
   productId        String
-  product          Product  @relation(fields: [productId], references: [id])
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   depotId          String
-  depot            Depot    @relation(fields: [depotId], references: [id])
+  depot            Depot    @relation(fields: [depotId], references: [id], onDelete: Cascade)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -123,9 +123,9 @@ model StockMovement {
   userId          String
   user            User     @relation(fields: [userId], references: [id])
   productId       String
-  product         Product  @relation(fields: [productId], references: [id])
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   depotId         String
-  depot           Depot    @relation(fields: [depotId], references: [id])
+  depot           Depot    @relation(fields: [depotId], references: [id], onDelete: Cascade)
   createdAt       DateTime @default(now())
 }
 
@@ -135,11 +135,11 @@ model StockTransfer {
   status          String    @default("IN_TRANSIT") // IN_TRANSIT, COMPLETED, CANCELLED
   quantity        Float
   productId       String
-  product         Product   @relation(fields: [productId], references: [id])
+  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   fromDepotId     String
-  fromDepot       Depot     @relation("TransferFrom", fields: [fromDepotId], references: [id])
+  fromDepot       Depot     @relation("TransferFrom", fields: [fromDepotId], references: [id], onDelete: Cascade)
   toDepotId       String
-  toDepot         Depot     @relation("TransferTo", fields: [toDepotId], references: [id])
+  toDepot         Depot     @relation("TransferTo", fields: [toDepotId], references: [id], onDelete: Cascade)
   dispatchedAt    DateTime  @default(now())
   receivedAt      DateTime?
   dispatchedById  String
@@ -172,9 +172,9 @@ model PurchaseOrder {
   status           String              @default("DRAFT") // DRAFT, SENT, RECEIVED, CANCELLED
   totalAmount      Float               @default(0) // Ariary
   supplierId       String
-  supplier         Supplier            @relation(fields: [supplierId], references: [id])
+  supplier         Supplier            @relation(fields: [supplierId], references: [id], onDelete: Cascade)
   receivingDepotId String?           // Dépôt choisi lors de la réception
-  receivingDepot   Depot?              @relation(fields: [receivingDepotId], references: [id])
+  receivingDepot   Depot?              @relation(fields: [receivingDepotId], references: [id], onDelete: Cascade)
   lines            PurchaseOrderLine[]
   createdAt        DateTime            @default(now())
   updatedAt        DateTime            @updatedAt
@@ -185,9 +185,9 @@ model PurchaseOrderLine {
   quantity        Float
   unitPrice       Float         // Prix d'achat unitaire (Ariary)
   purchaseOrderId String
-  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
   productId       String
-  product         Product       @relation(fields: [productId], references: [id])
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 // ==========================================
@@ -220,9 +220,9 @@ model Invoice {
   taxAmount     Float         @default(0)
   amountPaid    Float         @default(0)
   customerId    String
-  customer      Customer      @relation(fields: [customerId], references: [id])
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
   depotId       String
-  depot         Depot         @relation(fields: [depotId], references: [id])
+  depot         Depot         @relation(fields: [depotId], references: [id], onDelete: Cascade)
   lines         InvoiceLine[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -234,7 +234,7 @@ model InvoiceLine {
   unitPrice Float
   discount  Float   @default(0)
   invoiceId String
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

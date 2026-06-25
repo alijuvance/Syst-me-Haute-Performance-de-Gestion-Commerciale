@@ -6,17 +6,19 @@ import { useSaleForm } from '../hooks/useSaleForm';
 import { formatCurrency } from '@/utils/formatters';
 import { Button } from '@/components/shared/Button';
 import { Plus, Trash2, AlertCircle, Loader2 } from 'lucide-react';
+import { ProductSelector } from './ProductSelector';
 
 export const SaleForm: React.FC = () => {
   const router = useRouter();
   const {
     form, fields, onSubmit,
-    customers, products, depots, isLoadingRef,
+    customers, products, depots, categories, isLoadingRef,
     addLine, removeLine, handleProductChange,
     totalAmount, submitError,
   } = useSaleForm();
 
   const { register, formState: { errors, isSubmitting } } = form;
+  const [activeSelectorIndex, setActiveSelectorIndex] = React.useState<number | null>(null);
 
   if (isLoadingRef) {
     return (
@@ -102,16 +104,19 @@ export const SaleForm: React.FC = () => {
                 return (
                   <tr key={field.id} className="group">
                     <td className="px-4 py-3">
-                      <select
-                        value={watchedLine?.productId || ''}
-                        onChange={(e) => handleProductChange(index, e.target.value)}
-                        className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.lines?.[index]?.productId ? 'border-red-400' : 'border-slate-300'}`}
+                      <button
+                        type="button"
+                        onClick={() => setActiveSelectorIndex(index)}
+                        className={`w-full text-left border px-3 py-2 text-sm rounded-lg bg-white hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-900 ${errors.lines?.[index]?.productId ? 'border-red-400' : 'border-slate-300'}`}
                       >
-                        <option value="">Choisir un produit...</option>
-                        {products.map((p: any) => (
-                          <option key={p.id} value={p.id}>{p.name}</option>
-                        ))}
-                      </select>
+                        {watchedLine?.productId ? (
+                          <span className="font-medium text-slate-900">
+                            {products.find((p: any) => p.id === watchedLine.productId)?.name || 'Produit inconnu'}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">Choisir un produit...</span>
+                        )}
+                      </button>
                     </td>
                     <td className="px-4 py-3">
                       <input type="number" min={1} {...register(`lines.${index}.quantity`, { valueAsNumber: true })} className={`w-full border p-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 ${errors.lines?.[index]?.quantity ? 'border-red-400' : 'border-slate-300'}`} />
@@ -148,11 +153,23 @@ export const SaleForm: React.FC = () => {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="flex justify-end gap-3">
         <Button type="button" variant="outline" onClick={() => router.push('/dashboard/sales')}>Annuler</Button>
         <Button type="submit" isLoading={isSubmitting}>Valider la Facture</Button>
       </div>
+
+      {/* Sélecteur de produit Modal */}
+      <ProductSelector
+        isOpen={activeSelectorIndex !== null}
+        onClose={() => setActiveSelectorIndex(null)}
+        products={products}
+        categories={categories}
+        onSelectProduct={(productId) => {
+          if (activeSelectorIndex !== null) {
+            handleProductChange(activeSelectorIndex, productId);
+          }
+        }}
+      />
     </form>
   );
 };

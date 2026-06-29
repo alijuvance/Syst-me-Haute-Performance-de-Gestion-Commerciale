@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatCurrency, formatDate } from '@/utils/formatters';
 import { DataTable, ColumnDef } from '@/components/shared/DataTable';
+import { Printer } from 'lucide-react';
+import { generateInvoicePdf } from '@/utils/pdfGenerator';
 
 interface SalesTableProps {
   sales: any[];
@@ -34,6 +36,18 @@ export const SalesTable: React.FC<SalesTableProps> = ({ sales, isLoading, error 
           'text-red-700 bg-red-50 border-red-200'}`}>
           {s.status === 'PAID' ? 'Payé' : s.status === 'PARTIAL' ? 'Partiel' : 'Impayé'}
         </span>
+      )
+    },
+    {
+      key: 'actions', header: '', align: 'right',
+      cell: (s) => (
+        <button 
+          onClick={() => generateInvoicePdf(s)}
+          className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded transition"
+          title="Imprimer / PDF"
+        >
+          <Printer className="w-4 h-4" />
+        </button>
       )
     }
   ];

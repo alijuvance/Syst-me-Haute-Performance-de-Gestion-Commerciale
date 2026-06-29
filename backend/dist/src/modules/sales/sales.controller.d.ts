@@ -64,6 +64,28 @@ export declare class SalesController {
             creditLimit: number;
             currentDebt: number;
         };
+        lines: ({
+            product: {
+                name: string;
+                id: string;
+                isActive: boolean;
+                createdAt: Date;
+                updatedAt: Date;
+                sku: string;
+                barcode: string | null;
+                description: string | null;
+                defaultPrice: number;
+                costPrice: number;
+                categoryId: string;
+            };
+        } & {
+            id: string;
+            productId: string;
+            quantity: number;
+            unitPrice: number;
+            discount: number;
+            invoiceId: string;
+        })[];
     } & {
         id: string;
         createdAt: Date;

@@ -5,6 +5,7 @@ import { CartSidebar } from '@/features/pos/components/CartSidebar';
 import { useCart } from '@/features/pos/hooks/useCart';
 import { checkoutSale } from '@/features/pos/api/posApi';
 import { Product, Depot } from '@/features/pos/types';
+import { generateInvoicePdf } from '@/utils/pdfGenerator';
 
 export default function POSPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -37,8 +38,11 @@ export default function POSPage() {
 
     setLoading(true);
     try {
-      await checkoutSale(selectedDepot, cart);
+      const sale = await checkoutSale(selectedDepot, cart);
       alert('Encaissement réussi !');
+      if (confirm('Voulez-vous générer le ticket de caisse (PDF) ?')) {
+        generateInvoicePdf(sale);
+      }
       clearCart();
     } catch (err: any) {
       alert(`Erreur: ${err.message}`);

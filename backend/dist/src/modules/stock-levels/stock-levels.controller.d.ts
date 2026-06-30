@@ -2,8 +2,18 @@ import { StockLevelsService } from './stock-levels.service';
 export declare class StockLevelsController {
     private readonly stockLevelsService;
     constructor(stockLevelsService: StockLevelsService);
-    findAll(): Promise<({
+    findAll(depotId?: string): Promise<{
+        firstAddedAt: Date;
+        lastAddedAt: Date;
         product: {
+            category: {
+                name: string;
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                parentId: string | null;
+            };
+        } & {
             name: string;
             id: string;
             isActive: boolean;
@@ -24,13 +34,12 @@ export declare class StockLevelsController {
             location: string | null;
             type: string;
         };
-    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
         productId: string;
+        depotId: string;
         quantity: number;
         minAlertQuantity: number;
-        depotId: string;
-    })[]>;
+    }[]>;
 }

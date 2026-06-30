@@ -17,13 +17,36 @@ let StockLevelsService = class StockLevelsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findAll() {
-        return this.prisma.stockLevel.findMany({
+    async findAll(depotId) {
+        const where = depotId ? { depotId } : {};
+        const stockLevels = await this.prisma.stockLevel.findMany({
+            where,
             include: {
-                product: true,
+                product: { include: { category: true } },
                 depot: true,
             },
+            orderBy: { updatedAt: 'desc' },
         });
+        const enriched = await Promise.all(stockLevels.map(async (sl) => {
+            const [firstMovement, lastMovement] = await Promise.all([
+                this.prisma.stockMovement.findFirst({
+                    where: { productId: sl.productId, depotId: sl.depotId },
+                    orderBy: { date: 'asc' },
+                    select: { date: true },
+                }),
+                this.prisma.stockMovement.findFirst({
+                    where: { productId: sl.productId, depotId: sl.depotId },
+                    orderBy: { date: 'desc' },
+                    select: { date: true },
+                }),
+            ]);
+            return {
+                ...sl,
+                firstAddedAt: firstMovement?.date || sl.createdAt,
+                lastAddedAt: lastMovement?.date || sl.updatedAt,
+            };
+        }));
+        return enriched;
     }
 };
 exports.StockLevelsService = StockLevelsService;

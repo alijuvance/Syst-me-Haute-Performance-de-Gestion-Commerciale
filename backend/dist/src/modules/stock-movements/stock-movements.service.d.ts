@@ -9,9 +9,9 @@ export declare class StockMovementsService {
         productId: string;
         type: string;
         depotId: string;
+        date: Date;
         reference: string | null;
         quantityChanged: number;
-        date: Date;
         userId: string;
     }>;
     findAll(): Promise<({
@@ -52,9 +52,9 @@ export declare class StockMovementsService {
         productId: string;
         type: string;
         depotId: string;
+        date: Date;
         reference: string | null;
         quantityChanged: number;
-        date: Date;
         userId: string;
     })[]>;
 }

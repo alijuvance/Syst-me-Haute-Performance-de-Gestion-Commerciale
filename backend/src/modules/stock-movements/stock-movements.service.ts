@@ -24,9 +24,6 @@ export class StockMovementsService {
         throw new ConflictException(`Stock insuffisant. Actuel: ${currentQuantity}, Demandé: ${Math.abs(dto.quantityChanged)}`);
       }
 
-      const isAddition = ['IN', 'TRANSFER_IN'].includes(dto.type) && dto.quantityChanged > 0;
-      const now = new Date();
-
       await tx.stockLevel.upsert({
         where: {
           productId_depotId: {
@@ -36,19 +33,11 @@ export class StockMovementsService {
         },
         update: {
           quantity: newQuantity,
-          ...(isAddition && {
-            lastStockAddedAt: now,
-            firstStockAddedAt: stockLevel?.firstStockAddedAt ?? now,
-          }),
         },
         create: {
           productId: dto.productId,
           depotId: dto.depotId,
           quantity: newQuantity,
-          ...(isAddition && {
-            lastStockAddedAt: now,
-            firstStockAddedAt: now,
-          }),
         }
       });
 

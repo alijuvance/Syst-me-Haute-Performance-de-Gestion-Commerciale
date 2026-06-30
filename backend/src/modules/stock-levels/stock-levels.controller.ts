@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { StockLevelsService } from './stock-levels.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -8,7 +8,7 @@ export class StockLevelsController {
   constructor(private readonly stockLevelsService: StockLevelsService) {}
 
   @Get()
-  findAll() {
-    return this.stockLevelsService.findAll();
+  findAll(@Query('depotId') depotId?: string) {
+    return this.stockLevelsService.findAll(depotId);
   }
 }

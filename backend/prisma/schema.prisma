@@ -110,6 +110,8 @@ model StockLevel {
   depot            Depot    @relation(fields: [depotId], references: [id], onDelete: Cascade)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  firstStockAddedAt DateTime?
+  lastStockAddedAt  DateTime?
 
   @@unique([productId, depotId]) // Un seul enregistrement de niveau par produit et par dépôt
 }

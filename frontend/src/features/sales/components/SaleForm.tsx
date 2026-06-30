@@ -140,7 +140,7 @@ export const SaleForm: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedCategoryId(null)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1.5 text-xs font-medium transition-all ${
                   selectedCategoryId === null
                     ? 'bg-slate-900 text-white shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -153,7 +153,7 @@ export const SaleForm: React.FC = () => {
                   key={cat.id}
                   type="button"
                   onClick={() => setSelectedCategoryId(cat.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  className={`px-3 py-1.5 text-xs font-medium transition-all ${
                     selectedCategoryId === cat.id
                       ? 'bg-slate-900 text-white shadow-sm'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'

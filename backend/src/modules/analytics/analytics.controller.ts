@@ -21,4 +21,19 @@ export class AnalyticsController {
   getDebts() {
     return this.analyticsService.getDebts();
   }
+
+  @Get('finance-kpis')
+  getFinanceKPIs() {
+    return this.analyticsService.getFinanceKPIs();
+  }
+
+  @Get('cashflow')
+  getCashflowChart() {
+    return this.analyticsService.getCashflowChart();
+  }
+
+  @Get('payables')
+  getPayables() {
+    return this.analyticsService.getPayables();
+  }
 }

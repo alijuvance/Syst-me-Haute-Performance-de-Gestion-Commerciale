@@ -171,6 +171,7 @@ model PurchaseOrder {
   expectedDate     DateTime?
   status           String              @default("DRAFT") // DRAFT, SENT, RECEIVED, CANCELLED
   totalAmount      Float               @default(0) // Ariary
+  amountPaid       Float               @default(0) // Ariary (Ce qu'on a déjà payé au fournisseur)
   supplierId       String
   supplier         Supplier            @relation(fields: [supplierId], references: [id], onDelete: Cascade)
   receivingDepotId String?           // Dépôt choisi lors de la réception

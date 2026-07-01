@@ -11,7 +11,8 @@ import {
   Menu,
   Truck,
   FileText,
-  LineChart
+  LineChart,
+  Warehouse
 } from "lucide-react";
 
 interface SidebarProps {
@@ -25,7 +26,8 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const navItems = [
     { name: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
     { name: "Ventes & Factures", href: "/dashboard/sales", icon: ShoppingCart },
-    { name: "Catalogue & Stocks", href: "/dashboard/products", icon: Package },
+    { name: "Catalogue (Produits)", href: "/dashboard/products", icon: Package },
+    { name: "Gestion des Stocks", href: "/dashboard/stocks", icon: Warehouse },
     { name: "Clients B2B", href: "/dashboard/customers", icon: Users },
     { name: "Fournisseurs", href: "/dashboard/suppliers", icon: Truck },
     { name: "Achats", href: "/dashboard/purchases", icon: FileText },

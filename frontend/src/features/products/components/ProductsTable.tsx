@@ -8,11 +8,13 @@ import { Button } from '@/components/shared/Button';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { formatCurrency } from '@/utils/formatters';
 import { ProductFormModal } from './ProductFormModal';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export function ProductsTable() {
   const { products, isLoading, error, fetchProducts, removeProduct } = useProducts();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | undefined>(undefined);
+  const toast = useToast();
 
   const handleOpenCreate = () => {
     setEditingProduct(undefined);
@@ -25,8 +27,15 @@ export function ProductsTable() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Voulez-vous vraiment supprimer ce produit ?')) {
+    const ok = await toast.confirm({
+      title: 'Supprimer ce produit',
+      message: 'Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?',
+      variant: 'danger',
+      confirmText: 'Supprimer',
+    });
+    if (ok) {
       await removeProduct(id);
+      toast.success('Produit supprimé avec succès.');
     }
   };
 

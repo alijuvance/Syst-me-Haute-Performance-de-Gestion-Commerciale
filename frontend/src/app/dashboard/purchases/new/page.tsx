@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/api/axios';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export default function NewPurchaseOrderPage() {
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
   const router = useRouter();
+  const toast = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [supplierId, setSupplierId] = useState('');
@@ -41,7 +43,8 @@ export default function NewPurchaseOrderPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supplierId || lines.some(l => !l.productId || l.quantity <= 0)) {
-      return alert("Veuillez remplir correctement la commande.");
+      toast.warning('Veuillez remplir correctement la commande.');
+      return;
     }
 
     try {
@@ -49,7 +52,7 @@ export default function NewPurchaseOrderPage() {
       await api.post('/api/purchase-orders', { supplierId, lines });
       router.push('/dashboard/purchases');
     } catch (err: any) {
-      alert(err.response?.data?.message || err.message || 'Une erreur est survenue');
+      toast.error(err.response?.data?.message || err.message || 'Une erreur est survenue');
       setIsSubmitting(false);
     }
   };

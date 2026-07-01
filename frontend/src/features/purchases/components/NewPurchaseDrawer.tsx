@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Drawer from '@/components/shared/Drawer';
 import SearchSelect from '@/components/shared/SearchSelect';
 import api from '@/api/axios';
+import { useToast } from '@/components/providers/ToastProvider';
 import { formatCurrency } from '@/utils/formatters';
 import { Plus, Trash2, ShoppingBag, CheckCircle } from 'lucide-react';
 
@@ -26,6 +27,7 @@ export function NewPurchaseDrawer({ isOpen, onClose, onSuccess }: NewPurchaseDra
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const formTouched = useRef(false);
+  const toast = useToast();
 
   // Load reference data when drawer opens
   useEffect(() => {
@@ -62,9 +64,15 @@ export function NewPurchaseDrawer({ isOpen, onClose, onSuccess }: NewPurchaseDra
 
   const isDirty = supplierId !== '' || lines.some(l => l.productId !== '' || l.unitPrice > 0);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback(async () => {
     if (isDirty && !showSuccess) {
-      if (!confirm('Des données non enregistrées seront perdues. Voulez-vous vraiment fermer ?')) {
+      const shouldClose = await toast.confirm({
+        title: 'Données non enregistrées',
+        message: 'Des données non enregistrées seront perdues. Voulez-vous vraiment fermer ?',
+        variant: 'warning',
+        confirmText: 'Fermer quand même',
+      });
+      if (!shouldClose) {
         return;
       }
     }
@@ -102,7 +110,8 @@ export function NewPurchaseDrawer({ isOpen, onClose, onSuccess }: NewPurchaseDra
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supplierId || lines.some(l => !l.productId || l.quantity <= 0)) {
-      return alert('Veuillez remplir correctement la commande.');
+      toast.warning('Veuillez remplir correctement la commande.');
+      return;
     }
 
     try {
@@ -115,7 +124,7 @@ export function NewPurchaseDrawer({ isOpen, onClose, onSuccess }: NewPurchaseDra
         onClose();
       }, 1200);
     } catch (err: any) {
-      alert(err.response?.data?.message || err.message || 'Une erreur est survenue');
+      toast.error(err.response?.data?.message || err.message || 'Une erreur est survenue');
       setIsSubmitting(false);
     }
   };

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useToast } from '@/components/providers/ToastProvider';
 import { ProductCatalog } from '@/features/pos/components/ProductCatalog';
 import { CartSidebar } from '@/features/pos/components/CartSidebar';
 import { useCart } from '@/features/pos/hooks/useCart';
@@ -12,6 +13,7 @@ export default function POSPage() {
   const [depots, setDepots] = useState<Depot[]>([]);
   const [selectedDepot, setSelectedDepot] = useState('');
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
   
   const { cart, addToCart, updateQuantity, removeFromCart, clearCart, total } = useCart();
 
@@ -33,19 +35,20 @@ export default function POSPage() {
   }, []);
 
   const handleCheckout = async () => {
-    if (cart.length === 0) return alert('Le panier est vide');
-    if (!selectedDepot) return alert('Veuillez sélectionner un dépôt source (Caisse)');
+    if (cart.length === 0) { toast.warning('Le panier est vide'); return; }
+    if (!selectedDepot) { toast.warning('Veuillez sélectionner un dépôt source (Caisse)'); return; }
 
     setLoading(true);
     try {
       const sale = await checkoutSale(selectedDepot, cart);
-      alert('Encaissement réussi !');
-      if (confirm('Voulez-vous générer le ticket de caisse (PDF) ?')) {
+      toast.success('Encaissement réussi !');
+      const wantPDF = await toast.confirm({ title: 'Ticket de caisse', message: 'Voulez-vous générer le ticket de caisse (PDF) ?', variant: 'info', confirmText: 'Générer' });
+      if (wantPDF) {
         generateInvoicePdf(sale);
       }
       clearCart();
     } catch (err: any) {
-      alert(`Erreur: ${err.message}`);
+      toast.error(err.message || 'Erreur lors de l\'encaissement');
     } finally {
       setLoading(false);
     }

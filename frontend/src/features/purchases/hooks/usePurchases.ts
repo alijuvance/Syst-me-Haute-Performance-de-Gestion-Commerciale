@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/api/axios';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const usePurchases = () => {
   const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const fetchData = useCallback(async () => {
     try {
@@ -29,7 +31,7 @@ export const usePurchases = () => {
       return true;
     } catch (err: any) {
       const msg = err.response?.data?.message || err.message;
-      alert(`Erreur: ${msg}`);
+      toast.error(msg);
       return false;
     }
   };
@@ -41,7 +43,7 @@ export const usePurchases = () => {
       return true;
     } catch (err: any) {
       const msg = err.response?.data?.message || err.message;
-      alert(`Erreur: ${msg}`);
+      toast.error(msg);
       return false;
     }
   };

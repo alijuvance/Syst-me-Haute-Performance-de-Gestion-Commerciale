@@ -8,6 +8,7 @@ import { Button } from '@/components/shared/Button';
 import { Modal } from '@/components/shared/Modal';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupplierForm } from '../hooks/useSupplierForm';
+import { useToast } from '@/components/providers/ToastProvider';
 
 function SupplierFormModal({ isOpen, onClose, onSuccess, initialData }: { isOpen: boolean; onClose: () => void; onSuccess: () => void; initialData?: Supplier }) {
   const { form, onSubmit, submitError } = useSupplierForm(() => { onSuccess(); onClose(); }, initialData);
@@ -55,6 +56,20 @@ export function SuppliersTable() {
   const { suppliers, isLoading, error, fetchSuppliers, removeSupplier } = useSuppliers();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editing, setEditing] = useState<Supplier | undefined>(undefined);
+  const toast = useToast();
+
+  const handleDelete = async (id: string) => {
+    const ok = await toast.confirm({
+      title: 'Supprimer ce fournisseur',
+      message: 'Cette action est irréversible. Voulez-vous vraiment supprimer ce fournisseur ?',
+      variant: 'danger',
+      confirmText: 'Supprimer',
+    });
+    if (ok) {
+      await removeSupplier(id);
+      toast.success('Fournisseur supprimé avec succès.');
+    }
+  };
 
   const columns: ColumnDef<Supplier>[] = [
     { key: 'name', header: 'Nom', cell: (s) => <span className="font-medium text-slate-900">{s.name}</span> },
@@ -66,7 +81,7 @@ export function SuppliersTable() {
       cell: (s) => (
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button onClick={() => { setEditing(s); setIsModalOpen(true); }} className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit2 className="w-4 h-4" /></button>
-          <button onClick={() => { if (confirm('Supprimer ce fournisseur ?')) removeSupplier(s.id); }} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
+          <button onClick={() => handleDelete(s.id)} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
         </div>
       )
     }

@@ -7,11 +7,13 @@ import { PageHeader } from '@/components/shared/PageHeader';
 import { Button } from '@/components/shared/Button';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { CustomerFormModal } from './CustomerFormModal';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export function CustomersTable() {
   const { customers, isLoading, error, fetchCustomers, removeCustomer } = useCustomers();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | undefined>(undefined);
+  const toast = useToast();
 
   const handleOpenCreate = () => {
     setEditingCustomer(undefined);
@@ -24,8 +26,15 @@ export function CustomersTable() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Voulez-vous vraiment supprimer ce client ?')) {
+    const ok = await toast.confirm({
+      title: 'Supprimer ce client',
+      message: 'Cette action est irréversible. Voulez-vous vraiment supprimer ce client ?',
+      variant: 'danger',
+      confirmText: 'Supprimer',
+    });
+    if (ok) {
       await removeCustomer(id);
+      toast.success('Client supprimé avec succès.');
     }
   };
 

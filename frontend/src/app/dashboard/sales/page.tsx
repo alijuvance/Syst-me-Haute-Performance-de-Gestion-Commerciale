@@ -26,7 +26,7 @@ export default function SalesPage() {
               <Button variant="outline" icon={<ShoppingCart className="w-4 h-4" />}>Caisse POS</Button>
             </Link>
             <Link href="/dashboard/sales/new">
-              <Button icon={<Plus className="w-4 h-4" />}>Nouvelle Facture B2B</Button>
+              <Button icon={<Plus className="w-4 h-4" />}>Nouvelle Facture</Button>
             </Link>
           </div>
         }

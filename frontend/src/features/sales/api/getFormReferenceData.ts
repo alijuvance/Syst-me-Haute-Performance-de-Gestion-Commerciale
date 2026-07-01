@@ -9,7 +9,7 @@ export const getFormReferenceData = async () => {
   ]);
 
   return {
-    customers: (custRes.data || []).filter((c: any) => c.type === 'B2B'),
+    customers: custRes.data || [],
     products: prodRes.data || [],
     depots: depRes.data || [],
     categories: catRes.data || [],

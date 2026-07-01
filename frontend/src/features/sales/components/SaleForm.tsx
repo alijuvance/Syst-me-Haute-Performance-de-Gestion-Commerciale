@@ -94,7 +94,7 @@ export const SaleForm: React.FC = () => {
       {/* ═══════════════════════════════════════════════════ */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <SearchSelect
-          label="Client B2B"
+          label="Client"
           placeholder="Rechercher un client..."
           options={customerOptions}
           value={form.watch('customerId')}

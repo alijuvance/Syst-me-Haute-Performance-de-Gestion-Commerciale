@@ -3,12 +3,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { productSchema, ProductFormData, Product } from '../schemas/productSchema';
 import { createProduct, updateProduct } from '../api/productApi';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const useProductForm = (
   onSuccess: () => void,
   initialData?: Product
 ) => {
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const toast = useToast();
 
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -33,8 +35,10 @@ export const useProductForm = (
       setSubmitError(null);
       if (initialData) {
         await updateProduct(initialData.id, data);
+        toast.success('Produit modifié avec succès');
       } else {
         await createProduct(data);
+        toast.success('Produit ajouté avec succès');
       }
       onSuccess();
     } catch (err: any) {

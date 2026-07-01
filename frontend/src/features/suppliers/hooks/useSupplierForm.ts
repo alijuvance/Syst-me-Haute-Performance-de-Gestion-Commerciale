@@ -3,12 +3,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { supplierSchema, SupplierFormData, Supplier } from '../schemas/supplierSchema';
 import { createSupplier, updateSupplier } from '../api/supplierApi';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const useSupplierForm = (
   onSuccess: () => void,
   initialData?: Supplier
 ) => {
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const toast = useToast();
 
   const form = useForm<SupplierFormData>({
     resolver: zodResolver(supplierSchema),
@@ -33,8 +35,10 @@ export const useSupplierForm = (
       setSubmitError(null);
       if (initialData) {
         await updateSupplier(initialData.id, data);
+        toast.success('Fournisseur modifié avec succès');
       } else {
         await createSupplier(data);
+        toast.success('Fournisseur ajouté avec succès');
       }
       onSuccess();
     } catch (err: any) {

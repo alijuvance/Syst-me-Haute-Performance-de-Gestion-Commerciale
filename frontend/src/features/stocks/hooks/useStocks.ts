@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getStocks, getDepots, addStockMovement } from '../api/getStocks';
 import api from '@/api/axios';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const useStocks = () => {
   const [data, setData] = useState<any[]>([]);
@@ -11,6 +12,7 @@ export const useStocks = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const fetchData = useCallback(async () => {
     try {
@@ -59,14 +61,20 @@ export const useStocks = () => {
   });
 
   const handleAddStock = async (productId: string, depotId: string, quantity: number, reference?: string) => {
-    await addStockMovement({
-      type: 'IN',
-      productId,
-      depotId,
-      quantityChanged: quantity,
-      reference,
-    });
-    await fetchData();
+    try {
+      await addStockMovement({
+        type: 'IN',
+        productId,
+        depotId,
+        quantityChanged: quantity,
+        reference,
+      });
+      await fetchData();
+      toast.success('Stock ajouté avec succès');
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || err.message || 'Erreur lors de l\'ajout au stock');
+      throw err;
+    }
   };
 
   return {

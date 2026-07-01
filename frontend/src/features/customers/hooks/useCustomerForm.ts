@@ -3,12 +3,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { customerSchema, CustomerFormData, Customer } from '../schemas/customerSchema';
 import { createCustomer, updateCustomer } from '../api/customerApi';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const useCustomerForm = (
   onSuccess: () => void,
   initialData?: Customer
 ) => {
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const toast = useToast();
 
   const form = useForm<CustomerFormData>({
     resolver: zodResolver(customerSchema),
@@ -35,8 +37,10 @@ export const useCustomerForm = (
       setSubmitError(null);
       if (initialData) {
         await updateCustomer(initialData.id, data);
+        toast.success('Client modifié avec succès');
       } else {
         await createCustomer(data);
+        toast.success('Client ajouté avec succès');
       }
       onSuccess();
     } catch (err: any) {

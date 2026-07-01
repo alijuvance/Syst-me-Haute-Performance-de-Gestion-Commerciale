@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { saleSchema, SaleFormData } from '../schemas/saleSchema';
 import { createSale } from '../api/createSale';
 import { getFormReferenceData } from '../api/getFormReferenceData';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export const useSaleForm = () => {
   const router = useRouter();
+  const toast = useToast();
 
   // --- Reference data ---
   const [customers, setCustomers] = useState<any[]>([]);
@@ -109,12 +111,14 @@ export const useSaleForm = () => {
     try {
       setSubmitError(null);
       await createSale(data);
+      toast.success('Facture / Vente créée avec succès');
       router.push('/dashboard/sales');
     } catch (err: any) {
       const message =
         err?.response?.data?.message ||
         err?.message ||
         'Erreur lors de la création de la facture. Vérifiez le stock disponible.';
+      toast.error(message);
       setSubmitError(message);
     }
   });

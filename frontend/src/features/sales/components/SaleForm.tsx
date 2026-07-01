@@ -54,8 +54,8 @@ export const SaleForm: React.FC = () => {
   // --- Customer options for SearchSelect ---
   const customerOptions = customers.map((c: any) => ({
     id: c.id,
-    label: c.companyName || c.fullName,
-    sublabel: c.email || c.phone || '',
+    label: c.fullName,
+    sublabel: c.companyName ? `${c.companyName} (${c.email || c.phone || ''})` : (c.email || c.phone || ''),
   }));
 
   // --- Depot options for SearchSelect ---
